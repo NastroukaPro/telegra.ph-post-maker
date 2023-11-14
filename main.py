@@ -1,16 +1,33 @@
-# This is a sample Python script.
+import requests
+import json
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+print('Hello and welcome!')
+while True:
+    print('Do you have a account at telegra.ph?')
+    haveacccount = input("Enter Yes/No:")
 
+    if haveacccount == 'Yes' or haveacccount == 'Y' or  haveacccount =='yes':
+        token = input("Please enter the account token:")
+        break
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    elif haveacccount == 'No' or haveacccount == 'n' or  haveacccount == 'no':
+        newusername = input("Please enter your desaired username:")
 
+        print('The short name is displayed to the you above the "Edit/Publish"')
+        print("button on Telegra.ph, other users don't see this name.")
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+        newshortname = input("Please enter your desaired short name username:")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        serverreply = requests.get(f'https://api.telegra.ph/createAccount?short_name={newshortname}_name={newusername}')
+
+        parsedserverreply = json.loads(serverreply.text)
+
+        dpsr = parsedserverreply["result"]
+
+        token = dpsr["access_token"]
+
+        break
+
+    else:
+        print('You have enterted unpredicked answer,')
+        print('psease try again.')
