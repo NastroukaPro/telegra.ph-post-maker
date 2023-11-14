@@ -31,3 +31,11 @@ while True:
     else:
         print('You have enterted unpredicked answer,')
         print('psease try again.')
+
+
+Pagetitle = input('Enter the title for the page:')
+
+print('Enter the content of the page:')
+pageconten = input('')
+
+pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pageconten}]')
