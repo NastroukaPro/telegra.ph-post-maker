@@ -39,3 +39,5 @@ print('Enter the content of the page:')
 pageconten = input('')
 
 pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pageconten}]')
+
+print(pageserverresponse.text)
