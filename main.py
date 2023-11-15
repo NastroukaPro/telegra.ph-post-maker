@@ -12,11 +12,15 @@ while True:
 
     elif haveacccount == 'No' or haveacccount == 'n' or  haveacccount == 'no':
         newusername = input("Please enter your desaired username:")
+        newusername.replace(" ", "+")
+
 
         print('The short name is displayed to the you above the "Edit/Publish"')
         print("button on Telegra.ph, other users don't see this name.")
 
         newshortname = input("Please enter your desaired short name username:")
+
+        newshortname.replace(" ", "+")
 
         serverreply = requests.get(f'https://api.telegra.ph/createAccount?short_name={newshortname}_name={newusername}')
 
@@ -34,10 +38,14 @@ while True:
 
 
 Pagetitle = input('Enter the title for the page:')
+Pagetitle.replace(" ", "+")
 
 print('Enter the content of the page:')
 pageconten = input('')
+pageconten.replace(" ", "+")
 
-pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pageconten}]')
+pagetemp = '{"tag":"p","children":["{0}"]}'
+
+pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pagetemp.format(pageconten)}]')
 
 print(pageserverresponse.text)
