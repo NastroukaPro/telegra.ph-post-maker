@@ -1,5 +1,6 @@
 import requests
 import json
+import webbrowser
 
 print('Hello and welcome!')
 while True:
@@ -11,7 +12,9 @@ while True:
 
         jsaccname = requests.get(f'https://api.telegra.ph/getAccountInfo?access_token={token}&fields=["author_name"]')
         djsaccname = json.loads(jsaccname.text)
-        accname = djsaccname["author_name"]
+        tjsaccname = djsaccname['result']
+
+        accname = tjsaccname['author_name']
 
 
         break
@@ -58,5 +61,13 @@ pagetemp2 = '"]}'
 pagetemp = (pagetemp1 + pageconten) + pagetemp2
 
 pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pagetemp}]&author_name={accname}')
-
 print(pageserverresponse.text)
+jsweblink = json.loads(pageserverresponse.text)
+djsweblink = jsweblink["result"]
+weblink = djsweblink["url"]
+
+print ('Your webpage is created and it will open in a moment.')
+print('link:')
+print(weblink)
+
+webbrowser.open(weblink)
