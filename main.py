@@ -8,12 +8,20 @@ while True:
 
     if haveacccount == 'Yes' or haveacccount == 'Y' or  haveacccount =='yes':
         token = input("Please enter the account token:")
+
+        jsaccname = requests.get(f'https://api.telegra.ph/getAccountInfo?access_token={token}&fields=["author_name"]')
+        djsaccname = json.loads(jsaccname.text)
+        accname = djsaccname["author_name"]
+
+
         break
 
     elif haveacccount == 'No' or haveacccount == 'n' or  haveacccount == 'no':
         newusername = input("Please enter your desaired username:")
-        newusername.replace(" ", "+")
 
+
+        newusername.replace(" ", "+")
+        accname = newusername
 
         print('The short name is displayed to the you above the "Edit/Publish"')
         print("button on Telegra.ph, other users don't see this name.")
@@ -44,8 +52,11 @@ print('Enter the content of the page:')
 pageconten = input('')
 pageconten.replace(" ", "+")
 
-pagetemp = '{"tag":"p","children":["{0}"]}'
+pagetemp1= '{"tag":"p","children":["'
+pagetemp2 = '"]}'
 
-pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pagetemp.format(pageconten)}]')
+pagetemp = (pagetemp1 + pageconten) + pagetemp2
+
+pageserverresponse = requests.get(f'https://api.telegra.ph/createPage?access_token={token}&title={Pagetitle}&content=[{pagetemp}]&author_name={accname}')
 
 print(pageserverresponse.text)
